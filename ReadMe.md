@@ -2,20 +2,103 @@
 Von Prof. Gehrer @leoggehrer
 https://github.com/leoggehrer/SmartNQuick
 
-# TradingCompany
+# Systemstruktur [TradingCompany Backend]
 
-Das Projekt 'TradingCompany' ist ein kleiner Framework f�r die Erstellung von datenzentrierten Anwendungen. Ausgehend von diesem System k�nnen neue Anwendungen erstellt und erweitert werden. Der Framework unterst�tzt die Entwicklung einfacher Service-Anwendungen als auch die Erstellung von gro�en skalierbaren System-Anwendungen. Bei der Herstellung dieser Systeme wird der Entwickler von einem Code-Generator unterst�tzt. Details zur Arbeitsweise des Generators folgen in den n�chste Kapiteln.  
-Die Struktur des Frameworks besteht aus folgende Teilprojekten:
+## Lernzielkontrolle:
 
-|Projekt|Beschreibung|Typ|Abh�ngigkeit
-|---|---|---|---|
-|**CommonBase**|In diesem Projekt werden alle Hilfsfunktionen und allgemeine Erweiterungen zusammengefasst. Diese sind unabh�ngig vom Problembereich und k�nnen auch in andere Dom�n-Projekte wiederverwendet werden.|Library|keine
-|**TradingCompany.Contracts**|In diesem Projekt werden alle f�r das System notwendigen Schnittstellen und Enumerationen implementiert.|Library|keine
-|**TradingCompany.Logic**|Dieses Projekt beinhaltet den vollst�ndigen Datenzugriff, die gesamte Gesch�ftslogik und stellt somit den zentralen Baustein des Systems dar.|Library|CommonBase, TradingCompany.Contracts
-|**TradingCompany.Transfer**|In diesem Projekt werden alle Transferobjekte f�r den Datenaustausch, zwischen den einzelnen Schichten, verwaltet.|Library|CommonBase, TradingCompany.Contracts
-|**TradingCompany.WebApi**|In diesem Projekt ist die REST-Schnittstelle implementiert. Diese Modul stellt eine API (Aplication Programming Interface) f�r den Zugriff auf das System �ber das Netzwerk zur Verf�gung.|Host|CommonBase, TradingCompany.Transfer, TradingCompany.Logic
-|**TradingCompany.Adapters**|In diesem Projekt ist der Zugriff auf die Logik abstrahiert. Das bedeutet, dass der Zugriff auf die Gesch�ftslogik direkt oder �ber die REST-Schnittstelle erfolgen kann. F�r dieses Modul ist die Schnittstelle 'IAdapterAccess\<T\>' im Schnittstellen-Projekt implementiert. N�here Details dazu finden sich im Kapitel 'Kommunikation der Layer'.|Host|CommonBase, TradingCompany.Contracts, TradingCompany.Logic, TradingCompany.Transfer
-|**TradingCompany.ConApp**|Dieses Projekt dient als Initial-Anwendung zum Erstellen eines System-Administrators und eventuell weiterer Benutzer. Zudem kann diese auch zum Kopieren und Ausgeben der Daten verwendet werden. |Console|TradingCompany.Contracts, TradingCompany.Logic
-|**CSharpCodeGenerator.ConApp**|In diesem Projekt ist die Code-Generierung implementiert. F�r alle System-Ebenen werden Standard-Komponenten generieriert. Diese Standard-Komponenten werden als 'partial'-Klasse generiert und k�nnen somit durch �berschreiben von Eigenschaften und/oder Methoden bzw. durch das Erg�nzen mit 'partial'-Methoden angepasst werden. Als Eingabe f�r den Generator dient das Schnittstellen-Projekt (TradingCompany.Contracts). Aus den Schnittstellen werden alle Informationen f�r die Generierung ermittelt. Der Generator wird automatisch bei einer �nderung der Schnittstellen ausgef�hrt.|Console|CommonBase
-|**TradingCompany.AspMvc**|Diese Projekt beinhaltet die Basisfunktionen f�r eine AspWeb-Anwendung und kann als Vorlage f�r die Entwicklung einer einer AspWeb-Anwendung mit dem TradingCompany Framework verwendet werden.|Host|CommonBase, TradingCompany.Contracts, TradingCompany.Adapter
-|**TradingCompany.XxxYyy**|Es folgen noch weitere Vorlagen von Client-Anwendungen wie Angular, Blazor und mobile Apps. Zum jetzigen Zeitpunkt existiert nur die AspMvc-Anwendung. Die Erstellung und Beschreibung der anderen Client-Anwendungen erfolgt zu einem sp�teren Zeitpunk.|Host|CommonBase, TradingCompany.Contracts, TradingCompany.Adapter.
+```
+In dieser Lernzielkontrolle wird folgendes überprüft:
+```
+- Erstellen einer Backend-Systemstruktur
+- Erstellen einer REST-Schnittstelle
+
+**TradingCompany**
+Aufgabe: **Grundsystem**
+
+**TradingCompany** – Erstellen Sie ein System für eine Handels-Gesellschaft mit der System-Architektur
+aus dem Unterricht. Das System soll folgende Komponenten bereitstellen:
+
+### Product
+
+**Name Type Nullable Attributes**
+Number String No Unique Length 8
+Name String No Length 256
+Price decimal No
+
+### Customer
+
+**Name Type Nullable Attributes**
+Number String No Length 8
+Name String No Length 256
+
+### Condition
+
+**Name Type Nullable Attributes**
+Product Reference No Reference to Product
+Customer Reference No Reference to Customer
+ConditionType Enum No Type of condition
+Quantity double No Sales or number of items
+Value decimal No Discount or flat rate
+
+### Order
+
+**Name Type Nullable Attributes**
+Product Reference No Reference to Product
+Customer Reference No Reference to Customer
+CreatedOn DateTime No Creation date of order.
+Count int No Numbers of Products
+PriceNet decimal No Total price net
+Discount decimal No Discount
+
+**Hinweis** : Die Datenstruktur kann natürlich an die eigenen Anforderungen erweitert bzw. angepasst
+werden.
+
+### ConditionType :
+
+- PieceDiscountRelative, // Rabatt ab einer bestimmten Stückzahl
+- PieceDiscountAbsolute, // Abzug ab einer bestimmten Stückzahl
+- ValueDiscountRelative, // Rabatt ab einem bestimmten Bestellwert
+- ValueDiscountAbsolute, // Abzug ab einem bestimmten Bestellwert
+
+
+Erstellen Sie die Schnittstellen, Entitäten, die Kontroller und die entsprechende Datenbank.
+Anschließend implementieren Sie die Logik des Systems.
+
+**Beschreibung der Logik** :
+Die Handels-Gesellschaft handelt mit verschiedensten Produkten (Product) und wickelt nur
+Geschäfte mit registrierten Kunden ab. Bestellen können also nur von registrierten Kunden
+(Customer) durchgeführt werden. Dabei kann das Unternehmen für bestimmte Kunden und Produkte
+unterschiedliche Konditionen anbieten.
+
+**_Beispiele für Konditionen:_**
+
+Kunde A erhält für das Notebook X einen Rabatt von 10% (ConditionType: PieceDiscountRelative,
+Quantity: 10) ab einer Stückzahl von 5 (Value).
+
+Kunde A erhält für das Notebook X einen Rabatt von 200 (ConditionType: PieceDiscountAbsolute,
+Quantity: 200 ) ab einer Stückzahl von 10 (Value).
+
+Kunde A erhält für das Notebook X einen Rabatt von 1 5 % (ConditionType: ValueDiscountRelative,
+Quantity: 15 ) ab einem Umsatz 3300 (Value).
+
+Kunde A erhält für das Notebook X einen Rabatt von 500 (ConditionType: ValueDiscountAbsolut,
+Quantity: 500 ) ab einem Umsatz 4500 (Value).
+
+Nachfolgend die Wertebelegung der Tabelle **_Condition_**
+
+**Kunde Produkt ConditionType Quantity Value Anmerkung**
+C Y ...
+A X PieceDiscountRelative 10 5 10 % Rabatt ab 5 Stück
+A X PieceDiscountAbsolute 200 10 200 EUR Rabatt ab 10 Stück
+A X ValueDiscountRelative 15 3300 15 % Rabatt ab einen Umsatz
+von 3300 EUR
+A X ValueDiscountAbsolut 500 4500 500 EUR Rabatt ab einen
+Umsatz von 4500 EUR
+A Y ...
+B Z ...
+
+**Anmerkung** : Die Werte in Kunden (A, B und C) und Produkt (X, Y und Z) sind Stellvertreter für die
+entsprechenden Referenzen.
+
+Das System muss bei einer Bestellung jene Kondition auswählen, welche für den Kunden den größten
+Rabatt bereitstellt berücksichtigen.
