@@ -28,22 +28,17 @@ namespace TradingCompany.Logic.Entities.Persistence.ItemMaster
             get;
             set;
         }
-        public System.DateTime CreatedOn
+        public CommonBase.Models.Enum.ConditionType type
         {
             get;
             set;
         }
-        public System.Int32 Count
+        public System.Double Quantity
         {
             get;
             set;
         }
-        public System.Double PriceNet
-        {
-            get;
-            set;
-        }
-        public System.Double Discount
+        public System.Decimal Value
         {
             get;
             set;
@@ -62,10 +57,9 @@ namespace TradingCompany.Logic.Entities.Persistence.ItemMaster
                 RowVersion = other.RowVersion;
                 ProductId = other.ProductId;
                 CustomerId = other.CustomerId;
-                CreatedOn = other.CreatedOn;
-                Count = other.Count;
-                PriceNet = other.PriceNet;
-                Discount = other.Discount;
+                type = other.type;
+                Quantity = other.Quantity;
+                Value = other.Value;
             }
             AfterCopyProperties(other);
         }
@@ -85,11 +79,11 @@ namespace TradingCompany.Logic.Entities.Persistence.ItemMaster
             {
                 return false;
             }
-            return ProductId == other.ProductId && CustomerId == other.CustomerId && CreatedOn == other.CreatedOn && Count == other.Count && PriceNet == other.PriceNet && Discount == other.Discount;
+            return ProductId == other.ProductId && CustomerId == other.CustomerId && type == other.type && Quantity == other.Quantity && Value == other.Value;
         }
         public override int GetHashCode()
         {
-            return HashCode.Combine(ProductId, CustomerId, CreatedOn, Count, PriceNet, Discount);
+            return HashCode.Combine(ProductId, CustomerId, type, Quantity, Value);
         }
         public static Persistence.ItemMaster.Condition Create()
         {

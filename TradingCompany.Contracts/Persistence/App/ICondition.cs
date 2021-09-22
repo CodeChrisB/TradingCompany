@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommonBase.Models.Enum;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,17 +11,16 @@ namespace TradingCompany.Contracts.Persistence.ItemMaster
     {
         int ProductId { get; set; }
         int CustomerId { get; set; }
-        DateTime CreatedOn { get; set; }
-        int Count { get; set; }
-        double PriceNet { get; set; }
-        double Discount { get; set; }
+        ConditionType type { get; set; }
+        double Quantity { get; set; }
+        decimal Value { get; set; }
     }
 }
 
-//Product Reference No Reference to Product
-//Customer Reference No Reference to Customer
-//CreatedOn DateTime No Creation date of order.
-//Count int No Numbers of Products
-//PriceNet decimal No Total price net
-//Discount decimal No Discount
-//
+/*
+ * Product Reference No Reference to Product
+Customer Reference No Reference to Customer
+ConditionType Enum No Type of condition
+Quantity double No Sales or number of items
+Value decimal No Discount or flat rate
+*/
