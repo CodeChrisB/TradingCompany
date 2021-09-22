@@ -32,27 +32,27 @@ Product   Reference  No  Reference to Product Customer  Reference  No  Reference
 Hinweis: Die Datenstruktur kann natürlich an die eigenen Anforderungen erweitert bzw. angepasst werden. 
 
 ### ConditionType: 
-
-- PieceDiscountRelative,   // Rabatt ab einer bestimmten Stückzahl 
-- PieceDiscountAbsolute,   // Abzug ab einer bestimmten Stückzahl 
-- ValueDiscountRelative,   // Rabatt ab einem bestimmten Bestellwert 
-- ValueDiscountAbsolute,  // Abzug ab einem bestimmten Bestellwert 
-
+```
+PieceDiscountRelative,   // Rabatt ab einer bestimmten Stückzahl 
+PieceDiscountAbsolute,   // Abzug ab einer bestimmten Stückzahl 
+ValueDiscountRelative,   // Rabatt ab einem bestimmten Bestellwert 
+ValueDiscountAbsolute,  // Abzug ab einem bestimmten Bestellwert 
+```
 Erstellen Sie die Schnittstellen, Entitäten, die Kontroller und die entsprechende Datenbank. Anschließend implementieren Sie die Logik des Systems. 
 
 ### Beschreibung der Logik: 
 
 Die Handels-Gesellschaft handelt mit verschiedensten Produkten (Product) und wickelt nur Geschäfte mit registrierten Kunden ab. Bestellen können also nur von registrierten Kunden (Customer) durchgeführt werden. Dabei kann das Unternehmen für bestimmte Kunden und Produkte unterschiedliche Konditionen anbieten.  
 
-*Beispiele für Konditionen:* 
+### Beispiele für Konditionen:
 
-Kunde A erhält für das Notebook X einen Rabatt von 10% (ConditionType: PieceDiscountRelative, Quantity: 10) ab einer Stückzahl von 5 (Value). 
+- Kunde A erhält für das Notebook X einen Rabatt von 10% (ConditionType: PieceDiscountRelative, Quantity: 10) ab einer Stückzahl von 5 (Value). 
 
-Kunde A erhält für das Notebook X einen Rabatt von 200 (ConditionType: PieceDiscountAbsolute, Quantity: 200) ab einer Stückzahl von 10 (Value). 
+- Kunde A erhält für das Notebook X einen Rabatt von 200 (ConditionType: PieceDiscountAbsolute, Quantity: 200) ab einer Stückzahl von 10 (Value). 
 
-Kunde A erhält für das Notebook X einen Rabatt von 15% (ConditionType: ValueDiscountRelative, Quantity: 15) ab einem Umsatz 3300 (Value). 
+- Kunde A erhält für das Notebook X einen Rabatt von 15% (ConditionType: ValueDiscountRelative, Quantity: 15) ab einem Umsatz 3300 (Value). 
 
-Kunde A erhält für das Notebook X einen Rabatt von 500 (ConditionType: ValueDiscountAbsolut, Quantity: 500) ab einem Umsatz 4500 (Value). 
+- Kunde A erhält für das Notebook X einen Rabatt von 500 (ConditionType: ValueDiscountAbsolut, Quantity: 500) ab einem Umsatz 4500 (Value). 
 
 Nachfolgend die Wertebelegung der Tabelle *Condition* 
 
@@ -65,8 +65,7 @@ Nachfolgend die Wertebelegung der Tabelle *Condition*
 |A |X |PieceDiscountAbsolute |200 |10 |200 EUR Rabatt ab 10 Stück  |
 |A |X |ValueDiscountRelative |15 |3300 |15 % Rabatt ab einen Umsatz von 3300 EUR |
 |A |X |ValueDiscountAbsolut |500 |4500 |500 EUR Rabatt ab einen Umsatz von 4500 EUR |
-|A |Y |… ||||
-|B |Z |… ||||
+
 Anmerkung: Die Werte in Kunden (A, B und C) und Produkt (X, Y und Z) sind Stellvertreter für die entsprechenden Referenzen. 
 
 Das System muss bei einer Bestellung jene Kondition auswählen, welche für den Kunden den größten Rabatt bereitstellt berücksichtigen.  
