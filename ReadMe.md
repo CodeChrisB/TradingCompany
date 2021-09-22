@@ -1,3 +1,7 @@
+# Framework
+Von Prof. Gehrer @leoggehrer
+https://github.com/leoggehrer/SmartNQuick
+
 # TradingCompany
 
 Das Projekt 'TradingCompany' ist ein kleiner Framework f�r die Erstellung von datenzentrierten Anwendungen. Ausgehend von diesem System k�nnen neue Anwendungen erstellt und erweitert werden. Der Framework unterst�tzt die Entwicklung einfacher Service-Anwendungen als auch die Erstellung von gro�en skalierbaren System-Anwendungen. Bei der Herstellung dieser Systeme wird der Entwickler von einem Code-Generator unterst�tzt. Details zur Arbeitsweise des Generators folgen in den n�chste Kapiteln.  
